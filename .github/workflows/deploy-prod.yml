@@ -1,0 +1,41 @@
+name: Deploy para Produção (EC2)
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Copiar arquivos para a EC2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        source: "."
+        target: "~/servico_pedidos"
+        exclude: ".git,node_modules"
+
+    - name: Executar build e reiniciar serviços (PM2)
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          cd ~/servico_pedidos
+          npm install
+          npm run build
+          
+          pm2 restart api || pm2 start dist/server.js --name api
+          
+          pm2 restart worker || pm2 start dist/worker.js --name worker
+          
+          pm2 save
