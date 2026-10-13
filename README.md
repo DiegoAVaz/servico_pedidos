@@ -504,3 +504,17 @@ Esses itens são possibilidades de evolução; não representam funcionalidades 
 - [Nginx: módulo de rate limiting](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html).
 - [Amazon SQS: short e long polling](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-short-and-long-polling.html).
 - [Amazon SQS: entrega pelo menos uma vez em filas Standard](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/standard-queues-at-least-once-delivery.html).
+
+## Frontend de compra
+
+Acesse `http://localhost:3000` depois de iniciar a API com `npm run dev` (ou `npm run build` e `npm start`). Se configurar outra porta em `PORT`, ajuste o endereço.
+
+O Express serve os arquivos de `public/` tanto em desenvolvimento quanto com a API compilada. Não há dependências ou build adicional para o frontend; mantenha essa pasta junto de `dist/` no deploy.
+
+A loja contém cinco produtos com preços diferentes, controles de quantidade, remoção de itens, total em reais e previsão de pontos (piso do total dividido por 10).
+
+- **Simular compra** é o modo padrão: confirma a experiência localmente, sem gravar pedidos, cobrar pagamentos ou conceder pontos.
+- **Enviar pedido à API** exige o ID de um usuário existente e faz `POST /pedidos` com `usuario_id` e `valor_total`. Esse modo precisa de MySQL e SQS configurados. O crédito de pontos depende do worker e não é confirmado pela tela.
+- Em caso de falha no envio, consulte os registros antes de repetir: a API atual pode persistir um pedido mesmo se a publicação no SQS falhar.
+
+O catálogo e os itens do carrinho existem apenas no frontend; a API atual recebe somente o usuário e o total. O carrinho é mantido em memória e reinicia ao recarregar a página.

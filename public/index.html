@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Essencial · Loja de demonstração</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a href="./" class="brand">e / Essencial</a
+      ><span>Loja de demonstração</span
+      ><a href="#carrinho">Sacola <b id="count">0</b></a>
+    </header>
+    <main>
+      <section class="hero">
+        <div>
+          <small>ESCOLHAS SIMPLES. BONS MOMENTOS.</small>
+          <h1>O essencial para<br />o seu dia a dia.</h1>
+          <p>Escolha seus favoritos e experimente uma compra.</p>
+        </div>
+        <div class="benefit">
+          ✦
+          <h2>Suas escolhas<br />valem pontos.</h2>
+          <p>1 ponto a cada R$ 10 em compras.</p>
+        </div>
+      </section>
+      <div class="layout">
+        <section>
+          <small>NOSSA SELEÇÃO</small>
+          <h2>Encontre seu próximo favorito</h2>
+          <div id="products" class="products"></div>
+        </section>
+        <aside id="carrinho">
+          <div class="heading">
+            <h2>Sua sacola</h2>
+            <button id="clear" type="button">Limpar</button>
+          </div>
+          <div id="items"></div>
+          <div class="total">
+            <span>Total <small>· Frete grátis</small></span
+            ><strong id="total">R$ 0,00</strong>
+          </div>
+          <p class="reward">
+            ✦ Previsão de recompensa: <strong id="points">0 pontos</strong>
+          </p>
+          <form id="checkout">
+            <label for="mode">Como deseja finalizar?</label
+            ><select id="mode">
+              <option value="demo">Simular compra</option>
+              <option value="api">Enviar pedido à API</option>
+            </select>
+            <div id="user-field" hidden>
+              <label for="user">ID do usuário</label
+              ><input
+                id="user"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="ID de um usuário existente"
+              />
+            </div>
+            <button class="primary" id="submit" disabled>
+              Simular compra →
+            </button>
+            <p class="note" id="note">
+              Simulação sem cobrança ou gravação de pedido.
+            </p>
+          </form>
+          <p
+            id="feedback"
+            role="status"
+            aria-live="polite"
+            tabindex="-1"
+            hidden
+          ></p>
+        </aside>
+      </div>
+      <footer>
+        <strong>Essencial.</strong
+        ><span>Uma experiência simples que recompensa.</span
+        ><span>Projeto de pedidos & recompensas</span>
+      </footer>
+    </main>
+  </body>
+</html>
